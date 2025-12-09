@@ -10,8 +10,9 @@ function Header() {
         anchorEl,
         totalBalance,
         handleMenu,
-        handleClose,
-        handleSignUp
+        handleCloseMenu,
+        handleSignUpClick,
+        handleLogOut
     } = useHeaderLogic();
 
     // Not authorized user
@@ -19,7 +20,7 @@ function Header() {
         <Box sx={{display: 'flex', gap: 1}}>
             <Button
                 variant="contained"
-                onClick={handleSignUp}
+                onClick={handleSignUpClick}
                 sx={{
                     backgroundColor: '#4CAF50',
                     '&:hover': {
@@ -32,7 +33,7 @@ function Header() {
             </Button>
             <Button
                 variant="outlined" color="inherit"
-                onClick={handleSignUp}
+                onClick={handleSignUpClick}
                 startIcon={<PersonIcon/>}
                 sx={{
                     '&:hover': {
@@ -51,7 +52,7 @@ function Header() {
         <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
             <Button
                 variant="contained"
-                onClick={handleSignUp}
+                onClick={handleSignUpClick}
                 sx={{
                     backgroundColor: '#4CAF50',
                     fontWeight: 600,
@@ -79,10 +80,10 @@ function Header() {
                     horizontal: 'right',
                 }}
                 open={Boolean(anchorEl)}
-                onClick={handleClose}
-                onClose={handleClose}
+                onClick={handleCloseMenu}
+                onClose={handleCloseMenu}
             >
-                <MenuItem onClick={handleClose}>Exit</MenuItem>
+                <MenuItem onClick={handleLogOut}>Exit</MenuItem>
             </Menu>
         </Box>
     );

@@ -1,36 +1,25 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import {AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
 import {Person as PersonIcon, AccountBalanceWallet} from '@mui/icons-material';
 import './Header.scss';
-import {useState} from "react";
-
-const totalBalance = 12500;
+import {useHeaderLogic} from "../../hooks/useHeaderLogic.ts";
 
 function Header() {
-    const [auth, setAuth] = useState(false);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-        setAuth(false);
-    };
-
-    const handleSingUp = () => {
-        console.log('sing up');
-        setAuth(true);
-    }
+    const {
+        auth,
+        anchorEl,
+        totalBalance,
+        handleMenu,
+        handleClose,
+        handleSignUp
+    } = useHeaderLogic();
 
     // Not authorized user
     const renderAuthButtons = () => (
         <Box sx={{display: 'flex', gap: 1}}>
             <Button
                 variant="contained"
-                onClick={handleSingUp}
+                onClick={handleSignUp}
                 sx={{
                     backgroundColor: '#4CAF50',
                     '&:hover': {
@@ -43,7 +32,7 @@ function Header() {
             </Button>
             <Button
                 variant="outlined" color="inherit"
-                onClick={handleSingUp}
+                onClick={handleSignUp}
                 startIcon={<PersonIcon/>}
                 sx={{
                     '&:hover': {
@@ -62,7 +51,7 @@ function Header() {
         <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
             <Button
                 variant="contained"
-                onClick={handleSingUp}
+                onClick={handleSignUp}
                 sx={{
                     backgroundColor: '#4CAF50',
                     fontWeight: 600,

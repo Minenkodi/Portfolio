@@ -1,5 +1,6 @@
 import {gridExpandedRowCountSelector, useGridApiContext, useGridSelector} from "@mui/x-data-grid";
 import {Box, Typography} from "@mui/material";
+import {TEXT} from "../../constants/textConstants.ts";
 
 export const CustomFooter = () => {
     const apiRef = useGridApiContext();
@@ -15,7 +16,7 @@ export const CustomFooter = () => {
             alignItems: 'center'
         }}>
             <Typography variant="body2" sx={{fontWeight: 'bold'}}>
-                Загальна кількість елементів: {rowCount}
+                {TEXT.PAGES_TEXTS.CATEGORIES_FOOTER} {rowCount}
             </Typography>
         </Box>
     );

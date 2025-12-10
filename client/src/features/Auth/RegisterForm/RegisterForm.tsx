@@ -2,6 +2,7 @@ import {Box, Button, Grid, TextField, Typography} from "@mui/material";
 import {useState} from "react";
 import {useAppDispatch} from "../../../store/hooks";
 import {loginSuccessMock} from "../../../store/user/userSlice.ts";
+import {TEXT} from "../../../constants/textConstants.ts";
 
 type RegisterFormProps = {
     onCloseModal: () => void;
@@ -46,14 +47,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
             }}
         >
             <Typography variant="h5" gutterBottom align="center">
-                Sign Up
+                {TEXT.FORMS.SIGN_UP}
             </Typography>
 
             <Grid container spacing={2}>
                 <TextField
                     required
                     fullWidth
-                    label="Name"
+                    label={TEXT.FORMS.NAME}
                     name="name"
                     value={formState.name}
                     onChange={handleChange}
@@ -61,7 +62,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
                 <TextField
                     required
                     fullWidth
-                    label="Lastname"
+                    label={TEXT.FORMS.LASTNAME}
                     name="lastName"
                     value={formState.lastName}
                     onChange={handleChange}
@@ -69,7 +70,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
                 <TextField
                     required
                     fullWidth
-                    label="Email"
+                    label={TEXT.FORMS.EMAIL}
                     name="email"
                     type="email"
                     value={formState.email}
@@ -78,7 +79,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
                 <TextField
                     required
                     fullWidth
-                    label="Password"
+                    label={TEXT.FORMS.PASSWORD}
                     name="password"
                     type="password"
                     value={formState.password}
@@ -87,7 +88,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
                 <TextField
                     required
                     fullWidth
-                    label="Repeat password"
+                    label={TEXT.FORMS.REPEAT_PASSWORD}
                     name="repeatPassword"
                     type="password"
                     value={formState.repeatPassword}
@@ -101,14 +102,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
                     variant="outlined"
                     onClick={handleCancel}
                 >
-                    Cancel
+                    {TEXT.BUTTONS.CANCEL}
                 </Button>
                 <Button
                     type="submit"
                     variant="contained"
                     color="primary"
                 >
-                    Sign Up
+                    {TEXT.BUTTONS.SIGN_IN}
                 </Button>
             </Box>
         </Box>

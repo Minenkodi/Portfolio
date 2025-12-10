@@ -3,6 +3,7 @@ import {AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography} fr
 import {Person as PersonIcon, AccountBalanceWallet} from '@mui/icons-material';
 import './Header.scss';
 import {useHeaderLogic} from "../../hooks/useHeaderLogic.ts";
+import {TEXT} from "../../constants/textConstants.ts";
 
 function Header() {
     const {
@@ -29,7 +30,7 @@ function Header() {
                     },
             }}
             >
-                Sign Up
+                {TEXT.BUTTONS.SIGN_IN}
             </Button>
             <Button
                 variant="outlined" color="inherit"
@@ -42,7 +43,7 @@ function Header() {
                     },
                 }}
             >
-                Log In
+                {TEXT.BUTTONS.LOGIN}
             </Button>
         </Box>
     );
@@ -62,7 +63,7 @@ function Header() {
                     },
                 }}
             >
-                Add Transaction
+                {TEXT.BUTTONS.ADD_TRANSACTION}
             </Button>
             <IconButton onClick={handleMenu}>
                 <Avatar sx={{width: 32, height: 32}}><PersonIcon/></Avatar>
@@ -83,7 +84,7 @@ function Header() {
                 onClick={handleCloseMenu}
                 onClose={handleCloseMenu}
             >
-                <MenuItem onClick={handleLogOut}>Exit</MenuItem>
+                <MenuItem onClick={handleLogOut}>{TEXT.BUTTONS.EXIT}</MenuItem>
             </Menu>
         </Box>
     );

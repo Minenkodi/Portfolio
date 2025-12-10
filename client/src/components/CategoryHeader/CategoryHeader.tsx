@@ -1,7 +1,7 @@
-import {ToggleButtonGroup} from "@mui/material";
 import {useState} from "react";
-import {StyledToggleButton} from "./CategoryHeader.styled.ts";
-import Button from "@mui/material/Button";
+import {StyledButton, StyledToggleButton, StyledToggleButtonGroup} from "./CategoryHeader.styled.ts";
+import {TEXT} from "../../constants/textConstants.ts";
+import './CategoryHeader.scss';
 
 function CategoryHeader() {
     const [alignment, setAlignment] = useState('Expenses');
@@ -18,23 +18,13 @@ function CategoryHeader() {
     }
 
     return (
-        <div className="category-header" style={{display: 'flex', justifyContent: 'start', 'alignItems': 'flex-end'}}>
-            <ToggleButtonGroup
+        <div className="category-header">
+            <StyledToggleButtonGroup
                 color="standard"
                 value={alignment}
                 exclusive
                 onChange={handleChange}
                 aria-label="Categories Type"
-                sx={{
-                    border: 'none',
-                    display: 'flex',
-                    marginTop: '30px',
-                    width: 'fit-content',
-                    '& .MuiToggleButtonGroup-grouped': {
-                        margin: 0,
-                        border: '1px solid #E0E0E0',
-                    }
-                }}
             >
                 <StyledToggleButton
                     value="Expenses"
@@ -42,26 +32,13 @@ function CategoryHeader() {
                 <StyledToggleButton
                     value="Income"
                 >Income</StyledToggleButton>
-            </ToggleButtonGroup>
-            <Button
+            </StyledToggleButtonGroup>
+            <StyledButton
                 variant="contained"
                 onClick={handleAddCategotyClick}
-                sx={{
-                    backgroundColor: '#4CAF50',
-                    fontWeight: 600,
-                    padding: '5px 10px',
-                    maxHeight: 'fit-content',
-                    borderRadius: '10px',
-                    marginLeft: '15px',
-                    marginBottom: '2px',
-                    '&:hover': {
-                        backgroundColor: '#2e7d32',
-                        boxShadow: 6,
-                    },
-                }}
             >
-                + Create Category
-            </Button>
+                {TEXT.BUTTONS.NEW_CATEGORY}
+            </StyledButton>
         </div>
     );
 }

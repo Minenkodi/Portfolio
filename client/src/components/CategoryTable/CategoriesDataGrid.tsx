@@ -3,6 +3,7 @@ import {AccountCircle} from '@mui/icons-material';
 import {CustomFooter} from "./CustomFooter.tsx";
 import {columns} from "./userColumns.tsx";
 import './CategoriesDataGrid.scss';
+import {TEXT} from "../../constants/textConstants.ts";
 
 // Приклад даних
 const rows = [
@@ -32,7 +33,7 @@ const rows = [
 const CategoriesDataGrid = () => {
     return (
         <div className="category-table-wrapper">
-            <h3>Expenses Categories</h3>
+            <h3>{TEXT.TITLES.EXPENSES_CATEGORIES}</h3>
             <DataGrid
                 rows={rows}
                 rowHeight={40}

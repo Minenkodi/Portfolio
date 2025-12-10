@@ -1,6 +1,7 @@
-import {styled, ToggleButton} from "@mui/material";
+import {styled, ToggleButton, ToggleButtonGroup} from "@mui/material";
+import Button from "@mui/material/Button";
 
-export const StyledToggleButton = styled(ToggleButton) ({
+export const StyledToggleButton = styled(ToggleButton)({
     borderRadius: '10px !important',
     border: '1px solid #E0E0E0',
     textTransform: 'none',
@@ -25,4 +26,30 @@ export const StyledToggleButton = styled(ToggleButton) ({
         marginLeft: '15px',
         border: '1px solid #E0E0E0',
     }
+})
+
+export const StyledToggleButtonGroup = styled(ToggleButtonGroup)({
+    border: 'none',
+    display: 'flex',
+    marginTop: '30px',
+    width: 'fit-content',
+
+    '& .MuiToggleButtonGroup-grouped': {
+        border: '1px solid #E0E0E0',
+    }
+})
+
+export const StyledButton = styled(Button)({
+    backgroundColor: '#4CAF50',
+    fontWeight: 600,
+    padding: '5px 10px',
+    maxHeight: 'fit-content',
+    borderRadius: '10px',
+    marginLeft: '15px',
+    marginBottom: '2px',
+    textTransform: 'capitalize',
+    '&:hover': {
+        backgroundColor: '#2e7d32',
+        boxShadow: 6,
+    },
 })

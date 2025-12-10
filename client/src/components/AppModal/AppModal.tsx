@@ -30,7 +30,6 @@ const AppModal = () => {
             maxWidth="xs"
         >
             <DialogContent>
-                {/* 3. Динамічний рендеринг: передаємо пропси (включно з closeModal) */}
                 <SpecificContent
                     {...modalProps}
                     onCloseModal={handleClose}

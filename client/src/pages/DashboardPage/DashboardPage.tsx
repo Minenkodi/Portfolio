@@ -1,6 +1,8 @@
+import {TEXT} from "../../constants/textConstants.ts";
+
 function DashboardPage() {
     return (
-        <div className="wrapper">Dashboard</div>
+        <div className="wrapper">{TEXT.TITLES.DASHBOARD_PAGE}</div>
     );
 }
 

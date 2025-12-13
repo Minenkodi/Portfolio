@@ -54,13 +54,11 @@ export const userSlice = createSlice({
         builder
             .addCase(registerNewUser.fulfilled, (state, action) => {
                 state.user = action.payload.user;
-                console.log(action.payload);
                 state.isAuthenticated = true;
                 state.error = '';
             })
             .addCase(registerNewUser.rejected, (state, action) => {
                 state.error = action.payload;
-                console.log('test: ', action.payload);
             });
     }
 

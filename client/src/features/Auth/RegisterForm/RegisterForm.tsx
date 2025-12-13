@@ -10,7 +10,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
     const {
         formState,
         errors,
-        // registrationError,
         serverEmailError,
         handleChange,
         handleSubmit,
@@ -54,11 +53,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
                     error={!!errors.lastname}
                     helperText={errors.lastname}
                 />
-                {/*{registrationError && (
-                    <Typography color="error" align="center" sx={{mt: 2}}>
-                        {registrationError}
-                    </Typography>
-                )}*/}
                 <TextField
                     required
                     fullWidth
@@ -70,7 +64,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({onCloseModal}) => {
                     error={hasEmailError}
                     helperText={emailErrorText}
                 />
-
                 <TextField
                     required
                     fullWidth

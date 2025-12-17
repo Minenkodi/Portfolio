@@ -9,7 +9,6 @@ export const useCategoriesHeaderLogic = (): UseCategoriesHeaderLogic => {
     const dispatch = useAppDispatch();
 
     const handleAddCategoryClick = () => {
-        console.log('Add Category Clicked');
         dispatch(openModal({type: 'NEW_CATEGORY_FORM'}));
     }
 

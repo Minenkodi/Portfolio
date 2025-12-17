@@ -2,7 +2,7 @@ import {useState} from "react";
 import * as React from "react";
 import type {CategoryType, CategoryTypes} from "../types";
 import {useAppDispatch, useAppSelector} from "../store/hooks.ts";
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../constants/categotyTypes.ts";
+import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../constants/categoryTypes.ts";
 import {setCurrentType} from "../store/category/categorySlice.ts";
 
 function isDefined<T>(argument: T | undefined | null): argument is T {

@@ -4,7 +4,7 @@ import {createColumns} from "./CategoriesColumns.tsx";
 import './CategoriesDataGrid.scss';
 import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import {AccountBalanceWallet, MonetizationOn} from '@mui/icons-material';
-import {EXPENSE_CATEGORY_ID} from "../../constants/categotyTypes.ts";
+import {EXPENSE_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 import {useCategoryActions} from "../../hooks/useCategoryActions.ts";
 
 const CategoriesDataGrid = () => {
@@ -21,7 +21,6 @@ const CategoriesDataGrid = () => {
             : <MonetizationOn fontSize="small"/>
     }));
 
-    // const tableColumns = createColumns(dispatch);
     return (
         <div className="category-table-wrapper">
             <DataGrid

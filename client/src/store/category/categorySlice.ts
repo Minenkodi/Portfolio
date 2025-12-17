@@ -6,7 +6,7 @@ import type {
     ResponseDate,
 } from "../../types";
 import axios from "axios";
-import {CATEGORY_TYPES, EXPENSE_CATEGORY_ID} from "../../constants/categotyTypes.ts";
+import {CATEGORY_TYPES, EXPENSE_CATEGORY_ID} from "../../constants/categoryTypes.ts";
 
 const initialState: CategoryState = {
     types: [],
@@ -138,9 +138,9 @@ export const categorySlice = createSlice({
             .addCase(getCategoriesByType.fulfilled, (state, action) => {
                 state.categories = action.payload;
             })
-        /*.addCase(getCategoriesByType.rejected, (state, action) => {
-            state.error = action.payload;
-        });*/
+            .addCase(getCategoriesByType.rejected, (state, action) => {
+                state.error = action.payload as string;
+            });
 
         builder
             .addCase(getCategoryById.fulfilled, (state, action) => {
@@ -169,9 +169,9 @@ export const categorySlice = createSlice({
             .addCase(deleteCategory.fulfilled, (state, action) => {
                 state.categories = state.categories.filter((category) => category.id !== action.payload);
             })
-            /*.addCase(deleteCategory.rejected, (state, action) => {
-                state.error = action.payload;
-            });*/
+            .addCase(deleteCategory.rejected, (state, action) => {
+                state.error = action.payload as string;
+            });
     }
 });
 

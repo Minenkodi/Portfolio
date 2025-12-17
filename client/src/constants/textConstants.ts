@@ -35,22 +35,4 @@ export const TEXT = {
         NEW_CATEGORY_INPUT_PLACEHOLDER: "new category",
 
     } as const,
-
-
-    // 2. Назви карток (CARDS)
-    /*CARDS: {
-        BALANCE: "BALANCE",
-        INCOME: "INCOME",
-        EXPENSES: "EXPENSES",
-    } as const,*/
-
-
-    // 3. Заголовки (HEADERS)
-    /* HEADERS: {
-         MONTHLY_OVERVIEW: "INCOME & EXPENSES (MONTHLY)",
-         SETTINGS: "Settings",
-     } as const,*/
-
-
-    // ... інші секції (Наприклад, 'FORM_LABELS', 'ERRORS')
 };

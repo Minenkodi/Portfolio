@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import type {RegisterData, ResponseData, UserState} from "../../types/user.types.ts";
+import type {RegisterData, ResponseData, UserState} from "../../types";
 
 const initialState: UserState = {
     isAuthenticated: false,

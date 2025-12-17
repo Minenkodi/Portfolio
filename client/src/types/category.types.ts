@@ -23,12 +23,10 @@ export type RequestDate = {
 }
 
 export type RequestUpdate = RequestDate & { id: string };
-// export type ResponseUpdate = Omit<ResponseDate, 'categoryTypeId'>;
 
 export type ResponseDate = {
   id: string;
   name: string;
-  // categoryTypeId: CategoryType;
   amount: string;
 }
 

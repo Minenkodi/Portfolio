@@ -2,14 +2,15 @@ import {DataGrid} from '@mui/x-data-grid';
 import {CustomFooter} from "./CustomFooter.tsx";
 import {createColumns} from "./CategoriesColumns.tsx";
 import './CategoriesDataGrid.scss';
-import {useAppSelector} from "../../store/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
 import {AccountBalanceWallet, MonetizationOn} from '@mui/icons-material';
 import {EXPENSE_CATEGORY_ID} from "../../constants/categotyTypes.ts";
 import {useCategoryActions} from "../../hooks/useCategoryActions.ts";
 
 const CategoriesDataGrid = () => {
+    const dispatch = useAppDispatch();
     const {handleEditCategory} = useCategoryActions();
-    const tableColumns = createColumns(handleEditCategory);
+    const tableColumns = createColumns(handleEditCategory, dispatch);
     const categories = useAppSelector(state => state.categories.categories);
     const currentTypeId = useAppSelector(state => state.categories.currentType);
 
@@ -20,10 +21,7 @@ const CategoriesDataGrid = () => {
             : <MonetizationOn fontSize="small"/>
     }));
 
-   /* const editCategory = () => {
-
-    }*/
-    console.log(dataRows);
+    // const tableColumns = createColumns(dispatch);
     return (
         <div className="category-table-wrapper">
             <DataGrid

@@ -31,6 +31,7 @@ export const TEXT = {
         PASSWORD: "password",
         REPEAT_PASSWORD: "repeat password",
         CATEGORY_FORM_TITLE: "create new category",
+        CATEGORY_FORM_TITLE_UPDATE: "edit category",
         NEW_CATEGORY_INPUT_PLACEHOLDER: "new category",
 
     } as const,

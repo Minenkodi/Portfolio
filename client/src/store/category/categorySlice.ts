@@ -1,5 +1,10 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import type {CategoryState, CategoryType, CategoryTypes, requestDate, responseDate} from "../../types";
+import type {
+    CategoryState,
+    CategoryTypes,
+    RequestDate, RequestUpdate,
+    ResponseDate,
+} from "../../types";
 import axios from "axios";
 import {CATEGORY_TYPES, EXPENSE_CATEGORY_ID} from "../../constants/categotyTypes.ts";
 
@@ -29,7 +34,7 @@ export const getCategoryTypes = createAsyncThunk<CategoryTypes[], void, { reject
         });
     })
 
-export const getCategoriesByType = createAsyncThunk (
+export const getCategoriesByType = createAsyncThunk(
     'categories/getCategoriesByType',
     async (typeId: string, {rejectWithValue}) => {
         try {
@@ -42,7 +47,7 @@ export const getCategoriesByType = createAsyncThunk (
     }
 )
 
-export const getCategoryById = createAsyncThunk (
+export const getCategoryById = createAsyncThunk(
     'categories/getCategoryById',
     async (categoryId: string, {rejectWithValue}) => {
         try {
@@ -55,9 +60,9 @@ export const getCategoryById = createAsyncThunk (
     }
 )
 
-export const createCategory = createAsyncThunk<responseDate, requestDate, { rejectValue: string }>(
+export const createCategory = createAsyncThunk<ResponseDate, RequestDate, { rejectValue: string }>(
     'categories/createCategory',
-    async (newCategory: requestDate, {rejectWithValue}) => {
+    async (newCategory: RequestDate, {rejectWithValue}) => {
         try {
             const {data} = await client.post(CATEGORIES_URL, newCategory);
             const {id, name, category_type_id, amount} = data;
@@ -73,6 +78,40 @@ export const createCategory = createAsyncThunk<responseDate, requestDate, { reje
         }
     })
 
+export const updateCategory = createAsyncThunk<ResponseDate, RequestUpdate, { rejectValue: string }>(
+    'categories/updateCategory',
+    async (editingCategory: RequestUpdate, {rejectWithValue}) => {
+        const categoryId = editingCategory.id;
+        const categoryName = {name: editingCategory.name};
+        try {
+            const {data} = await client.put(`${CATEGORIES_URL}/${categoryId}`, categoryName);
+            const {id, name, amount} = data;
+            return {
+                id: id,
+                name: name,
+                amount: amount,
+            }
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue("Error creating category");
+        }
+    }
+)
+
+export const deleteCategory = createAsyncThunk(
+    'categories/deleteCategory',
+    async (categoryId: string, {rejectWithValue}) => {
+        try {
+            const {data} = await client.delete(`${CATEGORIES_URL}/${categoryId}`);
+            const {id} = data;
+            return id;
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue("Error deleting category");
+        }
+    }
+)
+
 export const categorySlice = createSlice({
     name: 'categories',
     initialState,
@@ -80,6 +119,10 @@ export const categorySlice = createSlice({
         setCurrentType: (state, action) => {
             state.currentType = action.payload;
         },
+
+        clearCurrentCategory: (state) => {
+            state.currentCategory = null;
+        }
     },
     extraReducers: builder => {
         builder
@@ -95,15 +138,14 @@ export const categorySlice = createSlice({
             .addCase(getCategoriesByType.fulfilled, (state, action) => {
                 state.categories = action.payload;
             })
-            /*.addCase(getCategoriesByType.rejected, (state, action) => {
-                state.error = action.payload;
-            });*/
+        /*.addCase(getCategoriesByType.rejected, (state, action) => {
+            state.error = action.payload;
+        });*/
 
         builder
             .addCase(getCategoryById.fulfilled, (state, action) => {
                 state.currentCategory = action.payload;
             })
-
 
         builder
             .addCase(createCategory.fulfilled, (state, action) => {
@@ -112,8 +154,26 @@ export const categorySlice = createSlice({
             .addCase(createCategory.rejected, (state, action) => {
                 state.error = action.payload;
             });
+
+        builder
+            .addCase(updateCategory.fulfilled, (state, action) => {
+                const updatedCategoryIndex = state.categories.findIndex((category) => category.id === action.payload.id);
+                state.categories.splice(updatedCategoryIndex, 1, action.payload);
+                state.currentCategory = null;
+            })
+            .addCase(updateCategory.rejected, (state, action) => {
+                state.error = action.payload;
+            });
+
+        builder
+            .addCase(deleteCategory.fulfilled, (state, action) => {
+                state.categories = state.categories.filter((category) => category.id !== action.payload);
+            })
+            /*.addCase(deleteCategory.rejected, (state, action) => {
+                state.error = action.payload;
+            });*/
     }
 });
 
-export const {setCurrentType} = categorySlice.actions;
+export const {setCurrentType, clearCurrentCategory} = categorySlice.actions;
 export default categorySlice.reducer;

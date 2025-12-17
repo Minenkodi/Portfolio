@@ -10,11 +10,19 @@ export const QUERIES = Object.freeze({
                             FROM categories c
                             WHERE c.id = $1 and c.user_id = $2
                             `,
-    UPDATE_CATEGORY_BY_ID: `UPDATE categories
-                            SET 
-                                name = $3 
-                            WHERE id = $1 and user_id = $2
-                            RETURNING *
+    UPDATE_CATEGORY_BY_ID: `with updated_category as (
+                                UPDATE categories
+                                SET
+                                    name = $3
+                                WHERE id = $1 and user_id = $2
+                                RETURNING *
+                            )
+                            select uc.id,
+                                   uc.name,
+                                   sum(COALESCE(t.amount, 0)) as amount
+                            from updated_category as uc
+                                left outer join transactions t on uc.id = t.category_id
+                            group by uc.id, uc.name
                             `,
     DELETE_CATEGORY_BY_ID: `DELETE from categories
                             WHERE id = $1 and user_id = $2

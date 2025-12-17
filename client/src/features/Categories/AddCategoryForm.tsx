@@ -9,11 +9,14 @@ type AddCategoryFormProps = {
 
 const AddCategoryForm: React.FC<AddCategoryFormProps> = ({onCloseModal}: AddCategoryFormProps) => {
     const {
+        currentCategory,
         formState,
         handleInputChange,
         handleSubmit,
         handleCancel
     } = useAddCategoryFormLogic({onCloseModal});
+
+    console.log(currentCategory);
 
     return (
         <Box
@@ -25,14 +28,14 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({onCloseModal}: AddCate
             }}
         >
             <Typography variant="h5" gutterBottom align="center" sx={{marginBottom: 4}}>
-                {TEXT.FORMS.CATEGORY_FORM_TITLE}
+                {currentCategory ? TEXT.FORMS.CATEGORY_FORM_TITLE_UPDATE : TEXT.FORMS.CATEGORY_FORM_TITLE}
             </Typography>
 
             <Grid container spacing={1}>
                 <TextField
                     required
                     fullWidth
-                    label={TEXT.FORMS.NEW_CATEGORY_INPUT_PLACEHOLDER}
+                    label={currentCategory ? TEXT.FORMS.CATEGORY_FORM_TITLE_UPDATE : TEXT.FORMS.NEW_CATEGORY_INPUT_PLACEHOLDER}
                     name="name"
                     value={formState.name}
                     onChange={handleInputChange}
@@ -52,7 +55,7 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({onCloseModal}: AddCate
                     variant="contained"
                     color="primary"
                 >
-                    {TEXT.BUTTONS.CREATE}
+                    {currentCategory ? TEXT.BUTTONS.SAVE : TEXT.BUTTONS.CREATE}
                 </Button>
             </Box>
         </Box>

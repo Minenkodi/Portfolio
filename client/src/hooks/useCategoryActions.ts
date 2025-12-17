@@ -4,13 +4,13 @@ import {openModal} from "../store/modal/modalSlice.ts";
 
 export const useCategoryActions = () => {
     const dispatch = useAppDispatch();
+
     const handleEditCategory = (categoryId: string) => {
         dispatch(getCategoryById(categoryId));
         dispatch(openModal({ type: 'EDIT_CATEGORY' }));
-        // 2. Модальне вікно відкриється в extraReducers після успіху Thunk
     };
+
     return {
         handleEditCategory,
-        // handleCloseEditModal
     };
 }

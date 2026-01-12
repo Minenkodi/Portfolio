@@ -1,16 +1,18 @@
-import {Box, IconButton, Stack, Tooltip, Typography} from "@mui/material";
-import {Delete, Edit} from "@mui/icons-material";
+import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import {openDeleteDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
+import { openDeleteDialog } from "../../store/confirmationDialog/confirmationDialogSlice.ts";
+import type { GridRenderCellParams } from '@mui/x-data-grid';
+import type { AppDispatch } from "../../store/store";
 
-export const createColumns = (onEdit: (id: string) => void, dispatch: any) => [
+export const createColumns = (onEdit: (id: string) => void, dispatch: AppDispatch) => [
     {
         field: 'name',
         headerName: 'Name',
         width: 560,
         sortable: true,
-        renderCell: (params: any) => (
-            <Box sx={{display: 'flex', alignItems: 'center', gap: 1.5}}>
+        renderCell: (params: GridRenderCellParams) => (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                 {params.row.icon}
                 <Typography variant="body2">{params.value}</Typography>
             </Box>
@@ -23,10 +25,10 @@ export const createColumns = (onEdit: (id: string) => void, dispatch: any) => [
         sortable: true,
         headerAlign: 'center',
         disableColumnMenu: true,
-        renderCell: (params: any) => {
+        renderCell: (params: GridRenderCellParams) => {
             const value = Number(params.value || 0).toFixed(2);
-            return (<Box sx={{display: 'flex', alignItems: 'center', gap: 0.5}}>
-                <AttachMoneyIcon fontSize="inherit" sx={{color: 'text.secondary'}}/>
+            return (<Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <AttachMoneyIcon fontSize="inherit" sx={{ color: 'text.secondary' }} />
                 {value}
             </Box>)
         },
@@ -37,15 +39,15 @@ export const createColumns = (onEdit: (id: string) => void, dispatch: any) => [
         width: 150,
         sortable: false,
         filterable: false,
-        renderCell: (params: any) => (
-            <Stack direction="row" spacing={1} sx={{justifyContent: 'center', width: '100%'}}>
+        renderCell: (params: GridRenderCellParams) => (
+            <Stack direction="row" spacing={1} sx={{ justifyContent: 'center', width: '100%' }}>
                 <Tooltip title="Edit">
                     <IconButton
                         size="small"
                         className="action-button edit-btn"
                         onClick={() => onEdit(params.row.id)}
                     >
-                        <Edit fontSize="small"/>
+                        <Edit fontSize="small" />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Delete">
@@ -59,7 +61,7 @@ export const createColumns = (onEdit: (id: string) => void, dispatch: any) => [
                             description: `Are you sure you want to delete "${params.row.name}"?`
                         }))}
                     >
-                        <Delete fontSize="small"/>
+                        <Delete fontSize="small" />
                     </IconButton>
                 </Tooltip>
             </Stack>

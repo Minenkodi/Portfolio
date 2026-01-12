@@ -1,15 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import {authenticateJWT} from './middleware/auth';
+import { authenticateJWT } from './middleware/auth';
 import listEndpoints from 'express-list-endpoints';
-import {Response, Request} from "express";
+import { Response, Request } from "express";
 
 import openRoutesV1 from './routes/v1/open';
 import closeRoutesV1 from './routes/v1/close';
-import {dbConnect} from "./db";
-import {API_CLOSE_PATH_PREFIX, API_OPEN_PATH_PREFIX, API_V1} from "./routes/v1/api-paths";
-import {login, register} from "./controllers/auth-controller";
+import { dbConnect } from "./db";
+import { API_CLOSE_PATH_PREFIX, API_OPEN_PATH_PREFIX, API_V1 } from "./routes/v1/api-paths";
+import { login, register } from "./controllers/auth-controller";
 import {
     appendSimpleCategory, deleteCategoryById,
     getCategoriesByCategoryType,
@@ -34,7 +34,7 @@ app.use(helmet()); // Secure HTTP headers
 app.use(cors());
 app.use(express.json());
 
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
     console.log(`[Incoming] ${req.method} ${req.url}`);
     next();
 });

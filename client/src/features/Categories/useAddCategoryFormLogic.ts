@@ -1,13 +1,13 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import * as React from "react";
-import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {clearCurrentCategory, createCategory, updateCategory} from "../../store/category/categorySlice.ts";
+import { useAppDispatch, useAppSelector } from "../../store/hooks.ts";
+import { clearCurrentCategory, createCategory, updateCategory } from "../../store/category/categorySlice.ts";
 
 type UseAddCategoryFormProps = {
     onCloseModal: () => void;
 }
 
-export const useAddCategoryFormLogic = ({onCloseModal}: UseAddCategoryFormProps) => {
+export const useAddCategoryFormLogic = ({ onCloseModal }: UseAddCategoryFormProps) => {
     const dispatch = useAppDispatch();
     const currentCategory = useAppSelector(state => state.categories.currentCategory)
     const currentCategoryType = useAppSelector(state => state.categories.currentType);
@@ -19,6 +19,7 @@ export const useAddCategoryFormLogic = ({onCloseModal}: UseAddCategoryFormProps)
 
     useEffect(() => {
         if (currentCategory) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setFormState(prev => ({
                 ...prev,
                 id: currentCategory.id,
@@ -49,8 +50,8 @@ export const useAddCategoryFormLogic = ({onCloseModal}: UseAddCategoryFormProps)
         if (isEditing) {
             dispatch(updateCategory(formState));
         } else {
-            const {id, ...newCategoryData} = formState;
-            dispatch(createCategory(newCategoryData));
+            const { name, categoryTypeId } = formState;
+            dispatch(createCategory({ name, categoryTypeId }));
         }
         onCloseModal();
     };

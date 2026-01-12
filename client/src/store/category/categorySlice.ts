@@ -44,8 +44,7 @@ export const getCategoriesByType = createAsyncThunk(
         try {
             const { data } = await client.get(`${CATEGORIES_URL}?categoryTypeId=${typeId}`);
             return data;
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error getting categories");
         }
     }
@@ -57,8 +56,7 @@ export const getCategoryById = createAsyncThunk(
         try {
             const { data } = await client.get(`${CATEGORIES_URL}/${categoryId}`);
             return data;
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error getting category");
         }
     }
@@ -76,8 +74,7 @@ export const createCategory = createAsyncThunk<ResponseDate, RequestDate, { reje
                 categoryTypeId: category_type_id,
                 amount: amount,
             }
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error creating category");
         }
     })
@@ -95,8 +92,7 @@ export const updateCategory = createAsyncThunk<ResponseDate, RequestUpdate, { re
                 name: name,
                 amount: amount,
             }
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error creating category");
         }
     }
@@ -109,8 +105,7 @@ export const deleteCategory = createAsyncThunk(
             const { data } = await client.delete(`${CATEGORIES_URL}/${categoryId}`);
             const { id } = data;
             return id;
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error deleting category");
         }
     }

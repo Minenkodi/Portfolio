@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { type Request, type Response } from 'express';
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 import * as db from '../db';
 import { QUERIES } from "../datasources/queries";
 
@@ -46,9 +46,9 @@ export const register = async (req: Request, res: Response) => {
             token
         });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         // Handle Unique Violation (Postgres Error Code 23505)
-        if (error.code === '23505') {
+        if (error && typeof error === 'object' && 'code' in error && (error as { code: string }).code === '23505') {
             return res.status(409).json({ error: 'Email already in use' });
         }
 
@@ -66,7 +66,7 @@ export const login = async (req: Request, res: Response) => {
 
     try {
         const result = await db.query(QUERIES.SELECT_USER_BY_EMAIL, [email]);
-        const user = result.rows[0];
+        const user = result.rows[0] as { id: number; email: string; password_hash: string } | undefined;
 
         if (!user) {
             return res.status(401).json({ error: 'Invalid email or password' });

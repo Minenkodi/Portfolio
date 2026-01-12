@@ -16,7 +16,7 @@ type ModalType =
 type ModalState = {
     modalType: ModalType;
     isOpen: boolean;
-    modalProps: any; // Additional props to pass to form
+    modalProps: Record<string, unknown>; // Additional props to pass to form
 }
 
 const initialState: ModalState = {
@@ -30,7 +30,7 @@ export const modalSlice = createSlice({
     initialState,
     reducers: {
         // To open modal
-        openModal: (state, action: PayloadAction<{ type: ModalType, props?: any }>) => {
+        openModal: (state, action: PayloadAction<{ type: ModalType, props?: Record<string, unknown> }>) => {
             state.modalType = action.payload.type;
             state.isOpen = true;
             state.modalProps = action.payload.props || {};

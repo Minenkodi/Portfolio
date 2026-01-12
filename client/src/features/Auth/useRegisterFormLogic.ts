@@ -1,9 +1,9 @@
-import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {useMemo, useState} from "react";
+import { useAppDispatch, useAppSelector } from "../../store/hooks.ts";
+import { useMemo, useState } from "react";
 import * as React from "react";
 import * as Yup from "yup";
-import {clearRegistrationError, registerNewUser} from "../../store/user/userSlice.ts";
-import type {FormErrors, UserData} from "../../types";
+import { clearRegistrationError, registerNewUser } from "../../store/user/userSlice.ts";
+import type { FormErrors, UserData } from "../../types";
 
 type UseRegisterFormProps = {
     onCloseModal: () => void;
@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
         .required('Repeat password is required'),
 });
 
-export const useRegisterFormLogic = ({onCloseModal}: UseRegisterFormProps) => {
+export const useRegisterFormLogic = ({ onCloseModal }: UseRegisterFormProps) => {
     const dispatch = useAppDispatch();
     const registrationError = useAppSelector(state => state.user.error);
 
@@ -52,19 +52,18 @@ export const useRegisterFormLogic = ({onCloseModal}: UseRegisterFormProps) => {
 
     const [errors, setErrors] = useState<FormErrors>({});
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setFormState({
             ...formState,
             [name]: value,
         });
 
         if (errors[name as keyof UserData]) {
-            setErrors(prevErrors => ({...prevErrors, [name]: undefined}));
+            setErrors(prevErrors => ({ ...prevErrors, [name]: undefined }));
         }
 
         if (name === 'email' && registrationError) {
             dispatch(clearRegistrationError());
-            console.log('Registration error cleared');
         }
     };
 
@@ -74,9 +73,10 @@ export const useRegisterFormLogic = ({onCloseModal}: UseRegisterFormProps) => {
         setErrors({});
 
         try {
-            await validationSchema.validate(formState, {abortEarly: false});
+            await validationSchema.validate(formState, { abortEarly: false });
             if (formState) {
-                const {repeatPassword, ...userData} = formState;
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { repeatPassword, ...userData } = formState;
                 await dispatch(registerNewUser(userData)).unwrap();
                 onCloseModal();
             }

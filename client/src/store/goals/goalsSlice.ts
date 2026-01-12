@@ -11,6 +11,14 @@ const initialState: GoalsState = {
 const API_URL = import.meta.env.VITE_API_KEY;
 const GOALS_URL = `${API_URL}/goals`;
 
+interface GoalResponse {
+    id: string;
+    name: string;
+    goal_amount: string;
+    goal_target_date: string;
+    amount: string;
+}
+
 export const client = axios.create();
 
 client.interceptors.request.use((config) => {
@@ -26,15 +34,14 @@ export const getGoals = createAsyncThunk<Goal[], void, { rejectValue: string }>(
     async (_, { rejectWithValue }) => {
         try {
             const { data } = await client.get(GOALS_URL);
-            return data.map((item: any) => ({
+            return data.map((item: GoalResponse) => ({
                 id: item.id,
                 name: item.name,
                 goalAmount: item.goal_amount,
                 goalTargetDate: item.goal_target_date,
                 savedAmount: item.amount || '0',
             }));
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error getting goals");
         }
     }
@@ -56,8 +63,7 @@ export const createGoal = createAsyncThunk<Goal, RequestAddGoal, { rejectValue: 
                 goalTargetDate: data.goal_target_date,
                 savedAmount: data.amount || '0',
             };
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error creating goal");
         }
     }
@@ -79,8 +85,7 @@ export const updateGoal = createAsyncThunk<Goal, { id: string } & RequestAddGoal
                 goalTargetDate: data.goal_target_date,
                 savedAmount: data.amount || '0',
             };
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error updating goal");
         }
     }
@@ -92,8 +97,7 @@ export const deleteGoal = createAsyncThunk<string, string, { rejectValue: string
         try {
             await client.delete(`${GOALS_URL}/${goalId}`);
             return goalId;
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error deleting goal");
         }
     }

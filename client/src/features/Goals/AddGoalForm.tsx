@@ -2,10 +2,11 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { TEXT } from "../../constants/textConstants.ts";
 import * as React from "react";
 import { useAddGoalFormLogic } from "./useAddGoalFormLogic.ts";
+import type { Goal } from "../../types/goal.types.ts";
 
 type AddGoalFormProps = {
     onCloseModal: () => void;
-    goal?: any;
+    goal?: Goal;
 }
 
 const AddGoalForm: React.FC<AddGoalFormProps> = ({ onCloseModal, goal }) => {

@@ -1,23 +1,33 @@
-import type {Transaction} from "../../types";
-import {useMemo} from "react";
-import {DataGrid, type GridColDef} from "@mui/x-data-grid";
-import {Box, IconButton, Stack, Tooltip} from "@mui/material";
+import type { Transaction } from "../../types";
+import { useMemo } from "react";
+import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import { Box, IconButton, Stack, Tooltip } from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
-import {Delete, Edit} from "@mui/icons-material";
+import { EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID } from "../../constants/categoryTypes.ts";
+import { Delete, Edit } from "@mui/icons-material";
 import './TransactionsDataGrid.scss';
-import {useAppDispatch} from "../../store/hooks.ts";
-import {openDeleteDialog} from "../../store/confirmationDialog/confirmationDialogSlice.ts";
-import {useTransactionActions} from "../../hooks/useTransactionsActions.ts";
+import { useAppDispatch } from "../../store/hooks.ts";
+import { openDeleteDialog } from "../../store/confirmationDialog/confirmationDialogSlice.ts";
+import { useTransactionActions } from "../../hooks/useTransactionsActions.ts";
 
 type TransactionsProps = {
     transactions: Transaction[]
 }
 
-const prepareRows = (transactions: Transaction[]) => {
+type TransactionHeader = {
+    id: string;
+    isHeader: true;
+    date: string;
+    amount: number;
+};
+
+type TransactionRow = Transaction & { isHeader: false };
+type GridRow = TransactionHeader | TransactionRow;
+
+const prepareRows = (transactions: Transaction[]): GridRow[] => {
     const sorted = [...transactions].sort((a, b) => new Date(b.when).getTime() - new Date(a.when).getTime());
-    const result: any[] = [];
+    const result: GridRow[] = [];
     let lastDate = '';
 
     sorted.forEach((item) => {
@@ -33,15 +43,15 @@ const prepareRows = (transactions: Transaction[]) => {
             });
             lastDate = currentDate;
         }
-        result.push({...item, isHeader: false});
+        result.push({ ...item, isHeader: false });
     });
     return result;
 }
 
 
-function TransactionsDataGrid({transactions}: TransactionsProps) {
+function TransactionsDataGrid({ transactions }: TransactionsProps) {
     const dispatch = useAppDispatch();
-    const {handleEditTransaction} = useTransactionActions();
+    const { handleEditTransaction } = useTransactionActions();
     const rows = useMemo(() => {
         return prepareRows(transactions);
     }, [transactions]);
@@ -56,7 +66,7 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
             sortable: false,
             disableColumnMenu: true,
             renderCell: (params) => (
-                <Box sx={{fontWeight: 500}}>
+                <Box sx={{ fontWeight: 500 }}>
                     {params.row.isHeader ? params.row.date : params.row.name}
                 </Box>
             )
@@ -92,7 +102,7 @@ function TransactionsDataGrid({transactions}: TransactionsProps) {
             sortable: false,
             disableColumnMenu: true,
             renderCell: (params) => (
-                <Box sx={{fontWeight: 500}}>
+                <Box sx={{ fontWeight: 500 }}>
                     {params.row.isHeader ? '' : params.row.when?.split('T')[0]}
                 </Box>
             )

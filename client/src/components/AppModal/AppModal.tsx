@@ -1,14 +1,15 @@
-import {Dialog, DialogContent} from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import RegisterForm from '../../features/Auth/RegisterForm/RegisterForm.tsx';
 import LoginForm from '../../features/Auth/LoginForm/LoginForm.tsx';
-import {useSelector} from "react-redux";
-import {useAppDispatch} from "../../store/hooks.ts";
-import type {RootState} from "../../store/store.ts";
-import {closeModal} from "../../store/modal/modalSlice.ts";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../store/hooks.ts";
+import type { RootState } from "../../store/store.ts";
+import { closeModal } from "../../store/modal/modalSlice.ts";
 import AddCategoryForm from "../../features/Categories/AddCategoryForm.tsx";
 import TransactionForm from "../../features/Transactions/TransactionForm.tsx";
 import AddGoalForm from "../../features/Goals/AddGoalForm.tsx";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MODAL_COMPONENTS: Record<string, React.FC<any>> = {
     'LOGIN': LoginForm,
     'REGISTER': RegisterForm,
@@ -16,6 +17,8 @@ const MODAL_COMPONENTS: Record<string, React.FC<any>> = {
     'EDIT_CATEGORY': AddCategoryForm,
     'ADD_TRANSACTION': TransactionForm,
     'EDIT_TRANSACTION': TransactionForm,
+    'ADD_GOAL': AddGoalForm,
+    'EDIT_GOAL': AddGoalForm,
 };
 
 const AppModal = () => {

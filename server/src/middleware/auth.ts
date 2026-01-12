@@ -1,5 +1,11 @@
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface AuthenticatedRequest extends Request {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    user?: any;
+}
 
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
@@ -12,7 +18,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
                 return res.sendStatus(403);
             }
 
-            (req as any).user = user;
+            (req as AuthenticatedRequest).user = user;
 
             next();
         });

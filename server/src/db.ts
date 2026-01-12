@@ -1,4 +1,4 @@
-import {Pool, PoolClient} from 'pg';
+import { Pool, PoolClient, QueryResultRow } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -17,4 +17,5 @@ export const dbConnect = async () => {
     dbClient = await pool.connect();
 }
 
-export const query = (text: string, params?: any[]) => pool.query(text, params);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const query = <R extends QueryResultRow = QueryResultRow>(text: string, params?: any[]) => pool.query<R>(text, params);

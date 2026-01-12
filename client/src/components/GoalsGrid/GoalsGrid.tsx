@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { getGoals, deleteGoal } from '../../store/goals/goalsSlice';
 import { openModal } from '../../store/modal/modalSlice';
 import type { RootState } from '../../store/store';
+import type { Goal } from '../../types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -17,7 +18,7 @@ const GoalsGrid = () => {
         dispatch(getGoals());
     }, [dispatch, transactions]);
 
-    const handleEdit = (goal: any) => {
+    const handleEdit = (goal: Goal) => {
         dispatch(openModal({ type: 'EDIT_GOAL', props: goal }));
     };
 

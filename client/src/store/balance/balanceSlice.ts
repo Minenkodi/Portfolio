@@ -36,8 +36,7 @@ export const getBalanceByUser = createAsyncThunk(
         try {
             const { data } = await client.get(BALANCE_URL);
             return data;
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue('Network error');
         }
     }
@@ -54,8 +53,7 @@ export const getBalanceByCategoryType = createAsyncThunk(
                 typeId: typeId,
             };
 
-        } catch (error) {
-            console.log(error);
+        } catch {
             return rejectWithValue("Error getting balance by category type");
         }
     }

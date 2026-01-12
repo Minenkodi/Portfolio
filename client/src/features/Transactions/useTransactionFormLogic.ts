@@ -1,8 +1,8 @@
-import {useEffect, useState} from "react";
-import type {Transaction, TransactionFormErrors} from "../../types";
+import { useEffect, useState } from "react";
+import type { Transaction } from "../../types";
 import * as React from "react";
-import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {getCategoriesByType} from "../../store/category/categorySlice.ts";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { getCategoriesByType } from "../../store/category/categorySlice.ts";
 import {
     clearCurrentTransaction,
     createTransaction,
@@ -13,9 +13,9 @@ type TransactionFormProps = {
     onCloseModal: () => void;
 }
 
-export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) => {
+export const useTransactionFormLogic = ({ onCloseModal }: TransactionFormProps) => {
     const dispatch = useAppDispatch();
-    const [errors, setErrors] = useState<TransactionFormErrors>({});
+    // const [errors, setErrors] = useState<TransactionFormErrors>({}); // Removed unused
     const categoryTypes = useAppSelector(state => state.categories.types);
     const categories = useAppSelector(state => state.categories.categories);
     const currentTransaction = useAppSelector(state => state.transactions.currentTransaction);
@@ -34,7 +34,8 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
     }, [dispatch, selectedCategoryType]);
 
     useEffect(() => {
-        if(currentTransaction){
+        if (currentTransaction) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setFormState(prev => ({
                 ...prev,
                 id: currentTransaction.id,
@@ -61,7 +62,6 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        setErrors({});
         const isEditing = !!currentTransaction;
 
         if (isEditing) {
@@ -79,9 +79,9 @@ export const useTransactionFormLogic = ({onCloseModal}: TransactionFormProps) =>
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         const normalizedValue = name === 'amount' ? value.replace(',', '.') : value;
-        if(name === 'amount') {
+        if (name === 'amount') {
             setFormState({
                 ...formState,
                 [name]: normalizedValue,

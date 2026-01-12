@@ -6,8 +6,18 @@ import type {
     TransactionsInitialState
 } from "../../types";
 import { getBalanceByCategoryType, getBalanceByUser } from "../balance/balanceSlice";
+import { getGoals } from "../goals/goalsSlice";
 import axios from "axios";
 import { EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID } from "../../constants/categoryTypes";
+
+interface TransactionResponse {
+    id: string;
+    category_type_id: string;
+    category_id: string;
+    when: string;
+    amount: string;
+    description: string;
+}
 
 const initialState: TransactionsInitialState = {
     transactions: [],
@@ -32,9 +42,8 @@ export const getTransactionsByUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const { data } = await client.get(TRANSACTIONS_URL);
-            return data;
-        } catch (error) {
-            console.log(error);
+            return data as TransactionResponse[];
+        } catch {
             return rejectWithValue('Network error');
         }
     }
@@ -45,38 +54,31 @@ export const getTransactionById = createAsyncThunk(
     async (transactionId: string, { rejectWithValue }) => {
         try {
             const { data } = await client.get(`${TRANSACTIONS_URL}/${transactionId}`);
-            return data;
-        } catch (error) {
-            console.log(error);
+            return data as TransactionResponse;
+        } catch {
             return rejectWithValue('Network error');
         }
     }
 )
 
-export const createTransaction = createAsyncThunk<Transaction, RequestAddTransaction, { rejectValue: string }>(
+export const createTransaction = createAsyncThunk<TransactionResponse, RequestAddTransaction, { rejectValue: string }>(
     'transactions/createTransaction',
-<<<<<<< HEAD
     async (newTransaction: RequestAddTransaction, { rejectWithValue, dispatch }) => {
         try {
             const { data } = await client.post(TRANSACTIONS_URL, newTransaction);
             dispatch(getBalanceByUser());
             dispatch(getBalanceByCategoryType(INCOME_CATEGORY_ID));
             dispatch(getBalanceByCategoryType(EXPENSE_CATEGORY_ID));
-=======
-    async (newTransaction: RequestAddTransaction, { rejectWithValue }) => {
-        const { id, ...rest } = newTransaction;
-        try {
-            const { data } = await client.post(TRANSACTIONS_URL, rest);
->>>>>>> 73585f6d0cc6907e5cc00a6d038d18f62c7a7758
-            return data;
-        } catch (error) {
-            console.log(error);
+            dispatch(getGoals());
+            dispatch(getGoals());
+            return data as TransactionResponse;
+        } catch {
             return rejectWithValue('Network error');
         }
     }
 )
 
-export const updateTransaction = createAsyncThunk<Transaction, Transaction, { rejectValue: string }>(
+export const updateTransaction = createAsyncThunk<TransactionResponse, Transaction, { rejectValue: string }>(
     'transactions/updateTransaction',
     async (updatedTransaction: Transaction, { rejectWithValue, dispatch }) => {
         try {
@@ -85,9 +87,10 @@ export const updateTransaction = createAsyncThunk<Transaction, Transaction, { re
             dispatch(getBalanceByUser());
             dispatch(getBalanceByCategoryType(INCOME_CATEGORY_ID));
             dispatch(getBalanceByCategoryType(EXPENSE_CATEGORY_ID));
-            return data;
-        } catch (error) {
-            console.log(error);
+            dispatch(getGoals());
+            dispatch(getGoals());
+            return data as TransactionResponse;
+        } catch {
             return rejectWithValue('Network error');
         }
     }
@@ -101,9 +104,10 @@ export const deleteTransaction = createAsyncThunk(
             dispatch(getBalanceByUser());
             dispatch(getBalanceByCategoryType(INCOME_CATEGORY_ID));
             dispatch(getBalanceByCategoryType(EXPENSE_CATEGORY_ID));
-            return data;
-        } catch (error) {
-            console.log(error);
+            dispatch(getGoals());
+            dispatch(getGoals());
+            return data as { id: string };
+        } catch {
             return rejectWithValue('Network error');
         }
     }
@@ -120,12 +124,13 @@ export const transactionsSlice = createSlice({
     extraReducers: builder => {
         builder
             .addCase(getTransactionsByUser.fulfilled, (state, action) => {
-                state.transactions = action.payload.map((transaction: Transaction) => {
-                    const { category_type_id: categoryTypeId, when, ...rest } = transaction;
+                state.transactions = action.payload.map((transaction: TransactionResponse) => {
+                    const { category_type_id: categoryTypeId, category_id: categoryId, when, ...rest } = transaction;
                     const correctDate = moment(when).format('YYYY-MM-DD');
 
                     return {
                         ...rest,
+                        categoryId,
                         categoryTypeId,
                         when: correctDate
                     };
@@ -136,13 +141,13 @@ export const transactionsSlice = createSlice({
                 state.error = action.payload as string;
             })
 
-        builder
             .addCase(createTransaction.fulfilled, (state, action) => {
-                const { when, category_type_id: categoryTypeId, ...rest } = action.payload;
+                const { when, category_type_id: categoryTypeId, category_id: categoryId, ...rest } = action.payload;
                 const correctDate = moment(when).format('YYYY-MM-DD');
                 const finalTransaction = {
                     ...rest,
                     when: correctDate,
+                    categoryId,
                     categoryTypeId
                 };
                 state.transactions.push(finalTransaction);
@@ -152,13 +157,13 @@ export const transactionsSlice = createSlice({
                 state.error = action.payload as string;
             })
 
-        builder
             .addCase(updateTransaction.fulfilled, (state, action) => {
-                const { when, category_type_id: categoryTypeId, ...rest } = action.payload;
+                const { when, category_type_id: categoryTypeId, category_id: categoryId, ...rest } = action.payload;
                 const correctDate = moment(when).format('YYYY-MM-DD');
                 const finalTransaction = {
                     ...rest,
                     when: correctDate,
+                    categoryId,
                     categoryTypeId
                 };
                 const updatedTransactionIndex = state.transactions.findIndex((transaction) =>
@@ -172,15 +177,15 @@ export const transactionsSlice = createSlice({
                 state.error = action.payload as string;
             })
 
-        builder
             .addCase(getTransactionById.fulfilled, (state, action) => {
+                // action.payload is of type TransactionResponse from the API
                 const {
                     category_type_id: categoryTypeId,
                     category_id: categoryId,
                     amount,
                     when,
                     ...rest
-                } = action.payload as any;
+                } = action.payload;
 
                 state.currentTransaction = {
                     ...rest,

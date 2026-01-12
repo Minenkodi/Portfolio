@@ -1,5 +1,5 @@
-import {Request, Response, NextFunction} from "express";
+import { Request, Response, NextFunction } from "express";
 
-export default (request: Request, res: Response, next: NextFunction) => {
+export default (_req: Request, _res: Response, next: NextFunction) => {
     next();
 };

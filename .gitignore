@@ -53,3 +53,9 @@ Desktop.ini
 client/lint_report.json
 client/features_lint.json
 server/scripts/check_email.ts
+
+# Custom Ignored Files
+test-vite/
+*_build_error.txt
+*_lint.txt
+*_startup.log

@@ -1,9 +1,9 @@
-import {Cell, Pie, PieChart, ResponsiveContainer, Sector, Text as RechartsText} from 'recharts';
-import {useAppDispatch, useAppSelector} from "../../store/hooks.ts";
-import {useEffect, useState} from "react";
-import {getCategoriesByType} from "../../store/category/categorySlice.ts";
-import {EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID} from "../../constants/categoryTypes.ts";
-import {TEXT} from "../../constants/textConstants.ts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Sector, Text as RechartsText } from 'recharts';
+import { useAppDispatch, useAppSelector } from "../../store/hooks.ts";
+import { useEffect, useState } from "react";
+import { getCategoriesByType } from "../../store/category/categorySlice.ts";
+import { EXPENSE_CATEGORY_ID, INCOME_CATEGORY_ID } from "../../constants/categoryTypes.ts";
+import { TEXT } from "../../constants/textConstants.ts";
 
 type Value = {
     name: string;
@@ -12,9 +12,10 @@ type Value = {
 
 const colors = ['#8884d8', '#83a6ed', '#8dd1e1', '#82ca9d', '#a4de6c', 'url(#pattern-checkers)'];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const renderActiveShape = (props: any) => {
     const RADIAN = Math.PI / 180;
-    const {cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value} = props;
+    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
     const sx = cx + (outerRadius + 10) * cos;
@@ -28,7 +29,7 @@ const renderActiveShape = (props: any) => {
     return (
         <g>
             <RechartsText x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}
-                          style={{fontSize: '18px', fontWeight: 'bold'}}>
+                style={{ fontSize: '18px', fontWeight: 'bold' }}>
                 {payload.name}
             </RechartsText>
             <Sector
@@ -49,22 +50,22 @@ const renderActiveShape = (props: any) => {
                 outerRadius={outerRadius + 10}
                 fill={fill}
             />
-            <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none"/>
-            <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none"/>
+            <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
+            <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
 
             <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333"
-                  style={{fontSize: '12px', fontWeight: 'bold'}}>
+                style={{ fontSize: '12px', fontWeight: 'bold' }}>
                 {`${value.toFixed(2)}`}
             </text>
             <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999"
-                  style={{fontSize: '11px'}}>
+                style={{ fontSize: '11px' }}>
                 {`(${(percent * 100).toFixed(2)}%)`}
             </text>
         </g>
     );
 };
 
-export default function CategoriesChart({isAnimationActive = true}: { isAnimationActive?: boolean }) {
+export default function CategoriesChart({ isAnimationActive = true }: { isAnimationActive?: boolean }) {
     const dispatch = useAppDispatch();
     const [activeIndex, setActiveIndex] = useState(0);
     const [categoryType, setCategoryType] = useState(EXPENSE_CATEGORY_ID);
@@ -85,7 +86,7 @@ export default function CategoriesChart({isAnimationActive = true}: { isAnimatio
         dispatch(getCategoriesByType(categoryType));
     }, [dispatch, categoryType]);
 
-    const onPieEnter = (_: any, index: number) => {
+    const onPieEnter = (_: unknown, index: number) => {
         setActiveIndex(index);
     };
 
@@ -94,10 +95,11 @@ export default function CategoriesChart({isAnimationActive = true}: { isAnimatio
     return (
         <>
             {categoryType === EXPENSE_CATEGORY_ID
-                ? <p style={{fontSize: "20px"}}>{TEXT.PAGES_TEXTS.CATEGORY_EXPENSES_CHART_TITLE}</p>
-                : <p style={{fontSize: "20px"}}>{TEXT.PAGES_TEXTS.CATEGORY_INCOME_CHART_TITLE}</p>}
+                ? <p style={{ fontSize: "20px" }}>{TEXT.PAGES_TEXTS.CATEGORY_EXPENSES_CHART_TITLE}</p>
+                : <p style={{ fontSize: "20px" }}>{TEXT.PAGES_TEXTS.CATEGORY_INCOME_CHART_TITLE}</p>}
             <ResponsiveContainer width="100%" height={300} >
                 <PieChart onClick={handleClick} className={'chart-wrapper'}>
+                    {/* @ts-ignore: Recharts type definition mismatch for activeShape/activeIndex */}
                     <Pie
                         activeIndex={activeIndex}
                         activeShape={renderActiveShape}
@@ -115,7 +117,7 @@ export default function CategoriesChart({isAnimationActive = true}: { isAnimatio
 
                     >
                         {categories.map((_entry, index) => (
-                            <Cell key={`cell-${index}`} fill={colors[index]}/>
+                            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                         ))}
                     </Pie>
                 </PieChart>

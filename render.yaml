@@ -1,12 +1,11 @@
-services:
-  # 1. The Database
-  - type: psql
-    name: expenses-db
-    env: docker
+databases:
+  # 1. The Database (Managed PostgreSQL)
+  - name: expenses-db
     plan: free
     databaseName: expenses
     user: sqladmin
 
+services:
   # 2. The Backend API
   - type: web
     name: fin-track-server
@@ -18,25 +17,21 @@ services:
       - key: PORT
         value: 10000
       - key: DB_HOST
-        fromService:
-          type: psql
+        fromDatabase:
           name: expenses-db
           property: host
       - key: DB_PORT
         value: 5432
       - key: POSTGRES_DB
-        fromService:
-          type: psql
+        fromDatabase:
           name: expenses-db
           property: database
       - key: POSTGRES_USER
-        fromService:
-          type: psql
+        fromDatabase:
           name: expenses-db
           property: user
       - key: POSTGRES_PASSWORD
-        fromService:
-          type: psql
+        fromDatabase:
           name: expenses-db
           property: password
       - key: JWT_SECRET

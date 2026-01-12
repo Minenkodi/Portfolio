@@ -1,0 +1,62 @@
+services:
+  # 1. The Database
+  - type: psql
+    name: expenses-db
+    env: docker
+    plan: free
+    databaseName: expenses
+    user: sqladmin
+
+  # 2. The Backend API
+  - type: web
+    name: fin-track-server
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: ./server/Dockerfile
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        fromService:
+          type: psql
+          name: expenses-db
+          property: host
+      - key: DB_PORT
+        value: 5432
+      - key: POSTGRES_DB
+        fromService:
+          type: psql
+          name: expenses-db
+          property: database
+      - key: POSTGRES_USER
+        fromService:
+          type: psql
+          name: expenses-db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromService:
+          type: psql
+          name: expenses-db
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+
+  # 3. The Frontend Client
+  - type: web
+    name: fin-track-client
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: ./client/Dockerfile
+    envVars:
+      - key: VITE_API_KEY
+        fromService:
+          type: web
+          name: fin-track-server
+          property: url
+      - key: VITE_API_KEY_OPEN
+        fromService:
+          type: web
+          name: fin-track-server
+          property: url

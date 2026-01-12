@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Fin-Track: Personal Finance Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A robust, full-stack personal finance application designed to help users track expenses, income, and financial goals. Built with modern web technologies and best practices.
 
-Currently, two official plugins are available:
+![Status](https://img.shields.io/badge/status-production-green)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+*   **Expense & Income Tracking**: Categorize and visualize your financial flow.
+*   **Interactive Dashboard**: Real-time charts (Pie, Bar) displaying financial health.
+*   **Goal Management**: Set financial targets and track progress automatically.
+*   **Secure Authentication**: JWT-based user session management.
+*   **Responsive Design**: Built with Material UI for a seamless mobile and desktop experience.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Technology Stack
 
-## Expanding the ESLint configuration
+*   **Frontend**: React, TypeScript, Vite, Redux Toolkit, Material UI, Recharts.
+*   **Backend**: Node.js, Express, TypeScript.
+*   **Database**: PostgreSQL.
+*   **DevOps**: Docker, Docker Compose.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📦 Installation & Setup
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+*   Docker & Docker Compose
+*   *Or* Node.js v18+ and PostgreSQL 15+
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### fast Start (Docker)
+
+The easiest way to run the application is using Docker:
+
+```bash
+# Clone the repository
+git clone https://github.com/Minenkodi/Portfolio.git
+
+# Navigate to directory
+cd Portfolio
+
+# Start the application
+docker-compose up --build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Access the application at `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Manual Development Setup
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1.  **Server**:
+    ```bash
+    cd server
+    npm install
+    npm run dev
+    ```
+
+2.  **Client**:
+    ```bash
+    cd client
+    npm install
+    npm run dev
+    ```
+
+## 🧪 Testing & Verification
+
+The project includes automated verification scripts:
+*   `verify_balance.ps1`: Validates core transaction logic and balance updates.
+*   `verify_categories.ps1`: Ensures category management integrity.
+
+## 📄 License
+
+This project is licensed under the MIT License.

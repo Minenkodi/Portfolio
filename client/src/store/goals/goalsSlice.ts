@@ -8,7 +8,8 @@ const initialState: GoalsState = {
     error: '',
 };
 
-const API_URL = import.meta.env.VITE_API_KEY;
+const rawUrl = import.meta.env.VITE_API_KEY;
+const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
 const GOALS_URL = `${API_URL}/goals`;
 
 interface GoalResponse {

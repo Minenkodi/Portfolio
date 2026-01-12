@@ -49,9 +49,9 @@ services:
         fromService:
           type: web
           name: fin-track-server
-          property: url
+          property: host
       - key: VITE_API_KEY_OPEN
         fromService:
           type: web
           name: fin-track-server
-          property: url
+          property: host

@@ -16,8 +16,9 @@ const initialState: BalanceState = {
     error: undefined,
 };
 
-const API_URL_BALANCE = import.meta.env.VITE_API_KEY;
-const API_URL_BALANCE_CATEGORY_TYPE = import.meta.env.VITE_API_KEY;
+const rawUrl = import.meta.env.VITE_API_KEY;
+const API_URL_BALANCE = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
+const API_URL_BALANCE_CATEGORY_TYPE = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
 const BALANCE_URL = `${API_URL_BALANCE}/transactions/balance`;
 const BALANCE_CATEGORY_TYPE_URL = `${API_URL_BALANCE_CATEGORY_TYPE}/categories`;
 export const client = axios.create();

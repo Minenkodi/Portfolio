@@ -16,7 +16,8 @@ const initialState: CategoryState = {
     error: '',
 };
 
-const API_URL = import.meta.env.VITE_API_KEY;
+const rawUrl = import.meta.env.VITE_API_KEY;
+const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
 const CATEGORY_TYPES_URL = `${API_URL}/category-types`;
 const CATEGORIES_URL = `${API_URL}/categories`;
 export const client = axios.create();

@@ -8,7 +8,8 @@ const initialState: UserState = {
     error: undefined,
 };
 
-const API_URL = import.meta.env.VITE_API_KEY_OPEN;
+const rawUrl = import.meta.env.VITE_API_KEY_OPEN;
+const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
 const REGISTER_URL = `${API_URL}/register`;
 const LOGIN_URL = `${API_URL}/login`;
 export const client = axios.create();

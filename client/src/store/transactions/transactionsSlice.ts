@@ -25,7 +25,8 @@ const initialState: TransactionsInitialState = {
     error: ''
 };
 
-const API_URL = import.meta.env.VITE_API_KEY;
+const rawUrl = import.meta.env.VITE_API_KEY;
+const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
 const TRANSACTIONS_URL = `${API_URL}/transactions`;
 export const client = axios.create();
 

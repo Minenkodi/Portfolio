@@ -11,7 +11,7 @@ services:
     name: fin-track-server
     env: docker
     plan: free
-    dockerContext: .
+    dockerContext: ./server
     dockerfilePath: ./server/Dockerfile
     envVars:
       - key: PORT

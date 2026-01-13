@@ -42,7 +42,7 @@ services:
     name: fin-track-client
     env: docker
     plan: free
-    dockerContext: .
+    dockerContext: ./client
     dockerfilePath: ./client/Dockerfile
     envVars:
       - key: VITE_API_KEY

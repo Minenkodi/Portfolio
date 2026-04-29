@@ -31,7 +31,13 @@ const PORT = process.env.PORT || 8080;
 
 // Security & Standard Middleware
 app.use(helmet()); // Secure HTTP headers
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://fin-track-client.onrender.com',
+    'http://localhost:5173'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 app.use((req, _res, next) => {

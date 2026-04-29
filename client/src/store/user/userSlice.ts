@@ -9,9 +9,11 @@ const initialState: UserState = {
 };
 
 const rawUrl = import.meta.env.VITE_API_KEY || '';
+const rawOpenUrl = import.meta.env.VITE_API_KEY_OPEN || '';
 const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
-const REGISTER_URL = `${API_URL}/register`;
-const LOGIN_URL = `${API_URL}/login`;
+const API_OPEN_URL = rawOpenUrl.startsWith('http') ? rawOpenUrl : `https://${rawOpenUrl}`;
+const REGISTER_URL = `${API_OPEN_URL}/register`;
+const LOGIN_URL = `${API_OPEN_URL}/login`;
 export const client = axios.create();
 
 export const registerNewUser = createAsyncThunk<ResponseData, RegisterData, { rejectValue: string }>(

@@ -33,7 +33,6 @@ const PORT = process.env.PORT || 8080;
 app.use(helmet()); // Secure HTTP headers
 app.use(cors({
   origin: [
-    'https://fin-track-client.onrender.com',
     'https://fin-track-frontend-cege.onrender.com',
     'http://localhost:5173'
   ],
